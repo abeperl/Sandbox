@@ -96,17 +96,17 @@
             <th style="width: 70px; border-right: 1px solid #e0e0e0;">
               <span style="display: inline-block; width: 70px;">End Age</span>
             </th>
-            <th style="background: #f5f7fa; border-bottom: none; padding: 0; border-right: 1px solid #e0e0e0;">
+            <th style="background: #f5f7fa; border-bottom: none; padding: 0; border-right: 2.5px solid #1e5aad;">
                 <span style="font-weight: 600; color: #1e5aad;">Weekly</span>
             </th>
-            <th style="background: #f5f7fa; border-bottom: none; padding: 0; border-right: 1px solid #e0e0e0;">
+            <th style="background: #f5f7fa; border-bottom: none; padding: 0; border-right: 2.5px solid #9c27b0;">
                 <span style="font-weight: 600; color: #1e5aad;">Monthly</span>
             </th>
             <th style="background: #f5f7fa; border-bottom: none; padding: 0; border-right: 1px solid #e0e0e0;">
                 <span style="font-weight: 600; color: #1e5aad;">Yearly</span>
             </th>
-            <th style="width: 120px; border-right: 1px solid #e0e0e0;">Invested</th>
-            <th style="width: 120px;">Gain</th>
+            <th style="width: 120px; border-right: 1px solid #e0e0e0; color: #1976d2;">Invested</th>
+            <th style="width: 120px; color: #9c27b0;">Gain</th>
           </tr>
         </thead>
         <tbody id="tableRows">
@@ -147,11 +147,11 @@
         </td>
         <td><input type="number" class="startAge" value="${startAge}" maxlength="7" style="width: 40px;"></td>
         <td><input type="number" class="endAge" value="${endAge}" maxlength="7" style="width: 40px;"></td>
-        <td class="number weekly">--</td>
-        <td class="number monthly">--</td>
-        <td class="number yearly">--</td>
-        <td class="number total-invested">--</td>
-        <td class="number total-gain">--</td>
+        <td class="number weekly" style="border-right: 2.5px solid #1e5aad;">--</td>
+        <td class="number monthly" style="border-right: 2.5px solid #9c27b0;">--</td>
+        <td class="number yearly" style="border-right: 1px solid #e0e0e0;">--</td>
+        <td class="number total-invested" style="color: #1976d2;">--</td>
+        <td class="number total-gain" style="color: #9c27b0;">--</td>
       `;
       return tr;
     }
