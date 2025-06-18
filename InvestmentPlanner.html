@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="container">
-    <header class="header">
+    <header class="header" style="border-bottom: 2px solid #e0e0e0; box-shadow: 0 2px 8px rgba(30,90,173,0.04);">
       <div class="logo">Bright Path Financials</div>
       <div class="contact">
         Hello@brightpathfinancials.com<br />929-675-9115
@@ -68,29 +68,45 @@
       <h1>Investment Planning Scenarios</h1>
       <p>Enter scenarios below, then click "Compute" to see required weekly investments.</p>
 
-      <div class="controls">
-        <button class="btn" id="addRowBtn">Add Scenario</button>
-        <button class="btn" id="computeBtn">Compute</button>
-        <button class="btn" id="downloadBtn">Download PDF</button>
+
+      <div class="controls" id="controlsBar" style="gap: 18px; justify-content: flex-start; flex-wrap: wrap;">
+        <button class="btn" id="addRowBtn" style="background: #28a745;">Add Line</button>
+        <button class="btn" id="computeBtn" style="background: #ff9800;">Calculate</button>
+        <button class="btn" id="downloadBtn" style="background: #607d8b;">Download PDF</button>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th style="width: 40px;"></th>
-            <th style="width: 110px;"><span style="display: inline-block; width: 110px;">Goal ($)</span></th>
-            <th style="width: 110px;">
-              <span style="display: inline-block; width: 110px;">Starting Age</span>
+      <table style="border-radius: 8px; overflow: hidden; border: 1.5px solid #e0e0e0; box-shadow: 0 2px 8px rgba(30,90,173,0.03);">
+        <thead style="background: #f5f7fa;">
+          <tr style="border-bottom: 2px solid #d0d7e2;">
+            <th style="width: 40px; border-right: 1px solid #e0e0e0;"></th>
+            <th style="width: 40px; border-right: 1px solid #e0e0e0;"></th>
+            <th style="width: 40px; border-right: 1px solid #e0e0e0;"></th>
+            <th style="width: 40px; border-right: 1px solid #e0e0e0;"></th>
+            <th colspan="3" style="width: 40px; border-right: 1px solid #e0e0e0;">Investment</th>
+            <th colspan="2" style="width: 40px; border-right: 1px solid #e0e0e0;">Totals</th>
+          </tr>
+          <tr style="border-bottom: 2px solid #d0d7e2;">
+            <th style="width: 40px; border-right: 1px solid #e0e0e0;"></th>
+            <th style="width: 110px; border-right: 1px solid #e0e0e0;">
+              <span style="display: inline-block; width: 110px;">Goal ($)</span>
             </th>
-            <th style="width: 110px;"><span style="display: inline-block; width: 110px;">Ending Age</span></th>
-            <th colspan="3" style="background: #f5f7fa; border-bottom: none; padding: 0;">
-              <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 0.7em; width: 330px;">
-                <span style="font-weight: 600; font-size: 1.05em; margin-right: 0.7em; border-right: 1px solid #ccc; padding-right: 0.7em;">Investment</span>
+            <th style="width: 70px; border-right: 1px solid #e0e0e0;">
+              <span style="display: inline-block; width: 70px;">Start Age</span>
+            </th>
+            <th style="width: 70px; border-right: 1px solid #e0e0e0;">
+              <span style="display: inline-block; width: 70px;">End Age</span>
+            </th>
+            <th style="background: #f5f7fa; border-bottom: none; padding: 0; border-right: 1px solid #e0e0e0;">
                 <span style="font-weight: 600; color: #1e5aad;">Weekly</span>
-                <span style="font-weight: 600; color: #1e5aad;">Monthly</span>
-                <span style="font-weight: 600; color: #1e5aad;">Yearly</span>
-              </div>
             </th>
+            <th style="background: #f5f7fa; border-bottom: none; padding: 0; border-right: 1px solid #e0e0e0;">
+                <span style="font-weight: 600; color: #1e5aad;">Monthly</span>
+            </th>
+            <th style="background: #f5f7fa; border-bottom: none; padding: 0; border-right: 1px solid #e0e0e0;">
+                <span style="font-weight: 600; color: #1e5aad;">Yearly</span>
+            </th>
+            <th style="width: 120px; border-right: 1px solid #e0e0e0;">Invested</th>
+            <th style="width: 120px;">Gain</th>
           </tr>
         </thead>
         <tbody id="tableRows">
@@ -124,25 +140,36 @@
     function createScenarioRow(goal = '', startAge = '', endAge = '', checked = true) {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><input type="checkbox" class="row-check" ${checked ? 'checked' : ''}></td>
+        <td><button type="button" class="remove-row-btn" title="Remove line" style="background: none; border: none; color: #e53935; font-size: 1.3em; cursor: pointer;">✕</button></td>
         <td style="position: relative;">
           <span style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: #888; pointer-events: none;">$</span>
           <input type="text" class="goal" value="${goal}" maxlength="9" style="padding-left: 22px;" inputmode="numeric" pattern="[0-9,]*">
         </td>
-        <td><input type="number" class="startAge" value="${startAge}" maxlength="7"></td>
-        <td><input type="number" class="endAge" value="${endAge}" maxlength="7"></td>
+        <td><input type="number" class="startAge" value="${startAge}" maxlength="7" style="width: 40px;"></td>
+        <td><input type="number" class="endAge" value="${endAge}" maxlength="7" style="width: 40px;"></td>
         <td class="number weekly">--</td>
         <td class="number monthly">--</td>
         <td class="number yearly">--</td>
+        <td class="number total-invested">--</td>
+        <td class="number total-gain">--</td>
       `;
       return tr;
     }
+
 
     // Add 7 empty rows on page load
     window.addEventListener('DOMContentLoaded', () => {
       const tableRows = document.getElementById('tableRows');
       for (let i = 0; i < 7; i++) {
         tableRows.appendChild(createScenarioRow('', '', '', true));
+      }
+    });
+
+    // Remove row on X button click
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('remove-row-btn')) {
+        const tr = e.target.closest('tr');
+        if (tr) tr.remove();
       }
     });
 
@@ -180,17 +207,8 @@
       const rows = document.querySelectorAll('#tableRows tr');
       let weeklySum = 0;
       let monthlySum = 0;
-      console.log('--- Compute Button Clicked ---');
+      let yearlySum = 0;
       rows.forEach((row, idx) => {
-        const check = row.querySelector('.row-check');
-        console.log(`Row ${idx + 1}:`);
-        console.log('  check:', check ? check.checked : undefined);
-        if (!check || !check.checked) {
-          row.querySelector('.weekly').innerText = '--';
-          row.querySelector('.monthly').innerText = '--';
-          row.querySelector('.yearly').innerText = '--';
-          return;
-        }
         const goalInput = row.querySelector('.goal');
         const goalVal = goalInput ? goalInput.value : '';
         const goal = goalInput ? parseGoalInput(goalInput.value) : 0;
@@ -240,36 +258,45 @@
         const monthly = years > 0 ? requiredAnnual / 12 : 0;
         const yearly = years > 0 ? requiredAnnual : 0;
 
-        console.log('  goalInput.value:', goalVal);
-        console.log('  goal:', goal);
-        console.log('  startAge.value:', startVal);
-        console.log('  start:', start);
-        console.log('  endAge.value:', endVal);
-        console.log('  end:', end);
-        console.log('  years:', years);
-        console.log('  weeks:', weeks);
-        console.log('  requiredAnnual:', requiredAnnual);
-        console.log('  weekly:', weekly);
-        console.log('  monthly:', monthly);
-        console.log('  yearly:', yearly);
+        // Calculate total invested (sum of all annual payments, no growth)
+        let totalInvested = 0;
+        if (years > 0) {
+          totalInvested = requiredAnnual * years;
+        }
+        // Calculate total gain (goal - total invested)
+        let totalGain = 0;
+        if (years > 0) {
+          totalGain = goal - totalInvested;
+        }
 
-        row.querySelector('.weekly').innerText = `$${weekly.toFixed(2)}`;
-        row.querySelector('.monthly').innerText = `$${monthly.toFixed(2)}`;
-        row.querySelector('.yearly').innerText = `$${yearly.toFixed(2)}`;
+        row.querySelector('.weekly').innerText = years > 0 ? `$${weekly.toFixed(2)}` : '--';
+        row.querySelector('.monthly').innerText = years > 0 ? `$${monthly.toFixed(2)}` : '--';
+        row.querySelector('.yearly').innerText = years > 0 ? `$${yearly.toFixed(2)}` : '--';
+        row.querySelector('.total-invested').innerText = years > 0 ? `$${totalInvested.toFixed(2)}` : '--';
+        row.querySelector('.total-gain').innerText = years > 0 ? `$${totalGain.toFixed(2)}` : '--';
         weeklySum += weekly;
         monthlySum += monthly;
+        yearlySum += yearly;
       });
-      console.log('weeklySum:', weeklySum);
-      console.log('monthlySum:', monthlySum);
-      console.log('yearlySum:', weeklySum * 52.1775);
       document.getElementById('weeklyTotal').innerText = `$${weeklySum.toFixed(2)}`;
       document.getElementById('monthlyTotal').innerText = `$${monthlySum.toFixed(2)}`;
-      document.getElementById('yearlyTotal').innerText = `$${(weeklySum * 52.1775).toFixed(2)}`;
+      document.getElementById('yearlyTotal').innerText = `$${yearlySum.toFixed(2)}`;
     });
 
     document.getElementById('downloadBtn').addEventListener('click', () => {
+      // Hide controls before PDF
+      const controls = document.getElementById('controlsBar');
+      controls.style.display = 'none';
       const element = document.querySelector('.container');
-      html2pdf().set({ margin:0.5, filename:'investment_plan.pdf', html2canvas:{ scale:2 } }).from(element).save();
+      html2pdf().set({ margin:0.5, filename:'investment_plan.pdf', html2canvas:{ scale:2 } })
+        .from(element)
+        .save()
+        .then(() => {
+          controls.style.display = '';
+        })
+        .catch(() => {
+          controls.style.display = '';
+        });
     });
   </script>
 </body>
